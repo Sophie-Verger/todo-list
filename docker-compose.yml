@@ -1,0 +1,30 @@
+version: '3.3'
+services:
+  node:
+    container_name: project_node_todolist
+    image: 'node:latest'
+    working_dir: /home/node/app
+    command:
+      - /bin/sh
+      - '-c'
+      - 'npm install && npm start'
+    ports:
+      - '3000:3000'
+    volumes:
+      - './src:/home/node/app'
+    links:
+      - mongo
+    networks:
+      - my-network
+    env_file:
+      - .env
+  mongo:
+    container_name: project_mongo_todolist
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - my-network
+networks:
+  my-network:
+    driver: bridge
